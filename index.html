@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <title>KCFC Team Calendar</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+  <header class="mobile-header">
+    <div class="brand"><span class="logo">K</span><div><b>KCFC Calendar</b><small>Team schedule</small></div></div>
+    <button id="themeBtn" class="icon-btn" aria-label="テーマ切替">◐</button>
+  </header>
+
+  <aside class="sidebar">
+    <div class="brand desktop-brand"><span class="logo">K</span><div><b>KCFC Calendar</b><small>Team schedule</small></div></div>
+    <button id="newEventBtn" class="primary wide">＋ 予定を追加</button>
+    <label class="field"><span>あなたの名前</span><input id="displayName" maxlength="24" placeholder="例：Usami"></label>
+    <div class="mini-card"><b>接続状況</b><div id="connectionStatus" class="status">接続中…</div></div>
+    <div class="mini-card legend"><b>カテゴリー</b><span><i class="c-practice"></i>練習</span><span><i class="c-match"></i>試合</span><span><i class="c-event"></i>イベント</span><span><i class="c-important"></i>重要</span></div>
+    <button id="notifyBtn" class="secondary wide">🔔 通知を有効化</button>
+    <p class="fineprint">URLを知っているチームメンバーで共有できます。</p>
+  </aside>
+
+  <main>
+    <section class="toolbar">
+      <div><p class="eyebrow">TEAM CALENDAR</p><h1 id="periodTitle"></h1></div>
+      <div class="toolbar-actions">
+        <div class="segmented"><button data-view="month" class="active">月</button><button data-view="list">一覧</button></div>
+        <button id="prevBtn" class="icon-btn">←</button><button id="todayBtn" class="secondary">今日</button><button id="nextBtn" class="icon-btn">→</button>
+      </div>
+    </section>
+
+    <section class="tools-row">
+      <input id="searchInput" class="search" placeholder="予定・場所・メモを検索">
+      <button id="exportBtn" class="secondary">ICS書き出し</button>
+    </section>
+
+    <section class="content-grid">
+      <div class="calendar-card">
+        <div id="monthView">
+          <div class="weekdays"><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span><span>日</span></div>
+          <div id="calendarGrid" class="calendar-grid"></div>
+        </div>
+        <div id="listView" class="list-view hidden"></div>
+      </div>
+
+      <aside class="details-card">
+        <div class="details-head"><div><p class="eyebrow">SELECTED DAY</p><h2 id="selectedTitle"></h2></div><span id="eventCount" class="badge">0件</span></div>
+        <div id="eventList" class="event-list"></div>
+      </aside>
+    </section>
+  </main>
+</div>
+
+<div id="eventModal" class="modal hidden" aria-hidden="true">
+  <div class="backdrop" data-close></div>
+  <form id="eventForm" class="dialog">
+    <div class="dialog-head"><div><p class="eyebrow">EVENT</p><h2 id="formTitle">予定を追加</h2></div><button type="button" class="icon-btn" data-close>×</button></div>
+    <input id="editingId" type="hidden">
+    <label class="field"><span>予定名 *</span><input id="eventTitle" maxlength="60" required placeholder="例：チーム練習"></label>
+    <div class="form-grid"><label class="field"><span>日付 *</span><input id="eventDate" type="date" required></label><label class="field"><span>時間</span><input id="eventTime" type="time"></label></div>
+    <div class="form-grid"><label class="field"><span>カテゴリー</span><select id="eventCategory"><option value="practice">練習</option><option value="match">試合</option><option value="event">イベント</option><option value="important">重要</option></select></label><label class="field"><span>通知</span><select id="eventReminder"><option value="0">なし</option><option value="10">10分前</option><option value="60">1時間前</option></select></label></div>
+    <label class="field"><span>場所</span><input id="eventLocation" maxlength="80" placeholder="例：体育館"></label>
+    <label class="field"><span>メモ</span><textarea id="eventMemo" maxlength="500" rows="4" placeholder="持ち物・集合時間など"></textarea></label>
+    <label class="field"><span>写真・PDF（任意、5MBまで）</span><input id="eventFile" type="file" accept="image/*,.pdf,application/pdf"></label>
+    <div id="uploadNote" class="fineprint"></div>
+    <button class="primary wide" type="submit">保存する</button>
+  </form>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-storage-compat.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
